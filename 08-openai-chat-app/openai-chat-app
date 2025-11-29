@@ -1,0 +1,23 @@
+pip install openai
+from openai import OpenAI
+
+client = OpenAI(api_key="YOUR_API_KEY")   # ← put your API key here
+
+print("------ OpenAI Chat App ------")
+
+while True:
+    user = input("You: ")
+
+    if user.lower() == "exit":
+        print("Chat ended.")
+        break
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",     # small, fast model
+        messages=[
+            {"role": "user", "content": user}
+        ]
+    )
+
+    bot = response.choices[0].message["content"]
+    print("AI:", bot)

@@ -1,0 +1,21 @@
+import shutil
+
+print("----- File Transfer App -----")
+
+source = input("Enter the source file path: ")
+
+destination = input("Enter the destination path: ")
+
+try:
+    
+    shutil.copy(source, destination)
+    print("File transferred successfully!")
+
+except FileNotFoundError:
+    print("Error: File not found. Check the path and try again.")
+
+except PermissionError:
+    print("Error: Permission denied.")
+
+except Exception as e:
+    print("An error occurred:", e)

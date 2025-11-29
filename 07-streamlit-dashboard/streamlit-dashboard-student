@@ -1,0 +1,95 @@
+import streamlit as st
+import pandas as pd
+import altair as alt
+
+st.title("🧠 Student Stress & Productivity Dashboard")
+st.write("A unique psychological + data-driven dashboard by Sumit Nayak (VGU) 🔥")
+
+# ==============================
+#   INTERNAL DATA (NO CSV)
+# ==============================
+data = {
+    "Name": ["Aman", "Riya", "Kunal", "Sneha", "Vikram", "Pooja", "Arjun", "Simran", "Rahul", "Neha"],
+    "Age": [20, 21, 19, 20, 22, 21, 20, 19, 22, 20],
+    "Hours of Sleep": [6, 7, 5, 8, 4, 6, 7, 5, 4, 8],
+    "Screen Time": [5, 4, 7, 3, 8, 6, 4, 7, 9, 3],
+    "Study Hours": [3, 4, 2, 5, 1, 3, 4, 2, 1, 5],
+    "Stress Level": [6, 4, 8, 3, 9, 7, 5, 8, 9, 2],
+    "Productivity Score": [70, 82, 55, 90, 40, 65, 78, 52, 38, 95]
+}
+
+df = pd.DataFrame(data)
+
+st.subheader("📌 Student Data")
+st.dataframe(df)
+
+# ==============================
+#   STRESS DISTRIBUTION
+# ==============================
+st.subheader("📊 Stress Distribution")
+chart = alt.Chart(df).mark_bar().encode(
+    x='Stress Level:O',
+    y='count()',
+    color='Stress Level:Q'
+)
+st.altair_chart(chart, use_container_width=True)
+
+# ==============================
+#   SLEEP vs PRODUCTIVITY
+# ==============================
+st.subheader("😴 Sleep vs Productivity")
+scatter = alt.Chart(df).mark_circle(size=80).encode(
+    x='Hours of Sleep:Q',
+    y='Productivity Score:Q',
+    color='Stress Level:Q',
+    tooltip=['Name', 'Hours of Sleep', 'Productivity Score', 'Stress Level']
+)
+st.altair_chart(scatter, use_container_width=True)
+
+# ==============================
+#   SCREEN TIME vs STRESS
+# ==============================
+st.subheader("📱 Screen Time vs Stress")
+scatter2 = alt.Chart(df).mark_circle(size=80).encode(
+    x='Screen Time:Q',
+    y='Stress Level:Q',
+    color='Productivity Score:Q',
+    tooltip=['Name', 'Screen Time', 'Stress Level']
+)
+st.altair_chart(scatter2, use_container_width=True)
+
+# ==============================
+#   STRESS PREDICTOR
+# ==============================
+st.subheader("🧮 Stress Prediction Calculator")
+
+sleep = st.slider("Hours of Sleep", 0, 12)
+screen = st.slider("Screen Time (hrs/day)", 0, 12)
+study = st.slider("Study Hours", 0, 10)
+
+predicted_stress = (10 - sleep) + (screen/2) - (study/3)
+predicted_stress = max(1, min(10, round(predicted_stress)))
+
+st.write(f"### 🔥 Predicted Stress Level: **{predicted_stress}/10**")
+
+if predicted_stress <= 3:
+    st.success("😎 Chill bro, life is smooth.")
+elif predicted_stress <= 6:
+    st.info("🙂 Normal stress, maintain balance.")
+elif predicted_stress <= 8:
+    st.warning("😫 High stress, take breaks.")
+else:
+    st.error("🔥 Extreme stress! REST REQUIRED!")
+
+# ==============================
+#   INSIGHTS
+# ==============================
+st.subheader("🧠 Final Insights")
+
+avg_sleep = df['Hours of Sleep'].mean()
+avg_stress = df['Stress Level'].mean()
+avg_screen = df['Screen Time'].mean()
+
+st.write(f"✔ Average Sleep: **{avg_sleep:.2f} hrs**")
+st.write(f"✔ Average Stress: **{avg_stress:.2f} /10**")
+st.write(f"✔ Average Screen Time: **{avg_screen:.2f} hrs/day**")

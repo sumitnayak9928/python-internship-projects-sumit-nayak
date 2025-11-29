@@ -1,0 +1,31 @@
+value = float(input("Enter value: "))
+from_unit = input("From unit (m, cm, mm, km): ")
+to_unit = input("To unit (m, cm, mm, km): ")
+
+# Step 1: Convert from the given unit to meters
+if from_unit == "m":
+    value_in_m = value
+elif from_unit == "cm":
+    value_in_m = value / 100
+elif from_unit == "mm":
+    value_in_m = value / 1000
+elif from_unit == "km":
+    value_in_m = value * 1000
+else:
+    print("Unknown unit!")
+    exit()
+
+# Step 2: Convert meters to the target unit
+if to_unit == "m":
+    result = value_in_m
+elif to_unit == "cm":
+    result = value_in_m * 100
+elif to_unit == "mm":
+    result = value_in_m * 1000
+elif to_unit == "km":
+    result = value_in_m / 1000
+else:
+    print("Unknown unit!")
+    exit()
+
+print("Result:", result, to_unit)

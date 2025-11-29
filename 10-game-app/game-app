@@ -1,0 +1,79 @@
+import random
+
+print("Welcome to Number Guessing Game!")
+print("I have selected a number between 1 and 20.")
+print("Try to guess it!")
+
+secret_number = random.randint(1, 20)
+attempts = 0
+
+while True:
+    guess = int(input("Enter your guess: "))
+    attempts += 1
+
+    if guess < secret_number:
+        print("Too low! Try again.")# Tic-Tac-Toe Game
+
+def print_board(board):
+    for row in board:
+        print(" | ".join(row))
+        print("-" * 5)
+
+def check_winner(board, player):
+    # Check rows
+    for row in board:
+        if all(s == player for s in row):
+            return True
+    # Check columns
+    for col in range(3):
+        if all(board[row][col] == player for row in range(3)):
+            return True
+    # Check diagonals
+    if all(board[i][i] == player for i in range(3)):
+        return True
+    if all(board[i][2 - i] == player for i in range(3)):
+        return True
+    return False
+
+# Initialize board
+board = [[" " for _ in range(3)] for _ in range(3)]
+
+players = ["X", "O"]
+turn = 0
+
+print("Welcome to Tic-Tac-Toe!")
+print_board(board)
+
+while True:
+    player = players[turn % 2]
+    print(f"Player {player}'s turn")
+    
+    # Get move
+    row = int(input("Enter row (0-2): "))
+    col = int(input("Enter column (0-2): "))
+
+    if board[row][col] == " ":
+        board[row][col] = player
+        print_board(board)
+    else:
+        print("Cell already taken. Try again.")
+        continue
+
+    # Check winner
+    if check_winner(board, player):
+        print(f"Player {player} wins!")
+        break
+
+    # Check tie
+    if all(board[r][c] != " " for r in range(3) for c in range(3)):
+        print("It's a tie!")
+        break
+
+    turn += 1
+
+    elif guess > secret_number:
+        print("Too high! Try again.")
+    else:
+        print(f"Congratulations! You guessed the number {secret_number} in {attempts} attempts.")
+        break
+

@@ -1,0 +1,47 @@
+while True:
+    print("\n--- Simple Python Calculator ---")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    print("5. Exit")
+
+    choice = input("Enter your choice (1-5): ")
+
+    # Exit condition
+    if choice == '5':
+        print("Exiting calculator... Goodbye!")
+        break
+
+    # Validate menu choice
+    if choice not in ['1', '2', '3', '4']:
+        print("Invalid choice! Please enter a number between 1 and 5.")
+        continue
+
+    try:
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+    except ValueError:
+        print("Error: Please enter valid numeric values!")
+        continue
+
+    try:
+        if choice == '1':
+            result = num1 + num2
+            print("Result =", result)
+
+        elif choice == '2':
+            result = num1 - num2
+            print("Result =", result)
+
+        elif choice == '3':
+            result = num1 * num2
+            print("Result =", result)
+
+        elif choice == '4':
+            result = num1 / num2   # may raise ZeroDivisionError
+            print("Result =", result)
+
+    except ZeroDivisionError:
+        print("Error: Cannot divide by zero!")
+
